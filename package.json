@@ -1,6 +1,6 @@
 {
   "name": "upsource-connector",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Upsource code review connector",
   "main": "index.js",
   "scripts": {
