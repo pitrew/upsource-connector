@@ -4,7 +4,6 @@ var url = require('url');
 
 var request = require('request');
 
-var oauth_util = require('./lib/oauth_util');
 var errorStrings = require('./lib/error');
 var review = require('./api/review');
 var project = require('./api/project');
@@ -14,10 +13,10 @@ var UpsourceClient = module.exports = function (config) {
     if(!config.host) {
         throw new Error(errorStrings.NO_HOST_ERROR);
     }
-    this.hub = config.hub;
-    this.hub.protocol = config.hub.protocol ? config.hub.protocol : 'http';
-    this.hub.path_prefix = config.hub.path_prefix ? config.hub.path_prefix : '/';
-    this.hub.port = config.hub.port;
+    // this.hub = config.hub;
+    // this.hub.protocol = config.hub.protocol ? config.hub.protocol : 'http';
+    // this.hub.path_prefix = config.hub.path_prefix ? config.hub.path_prefix : '/';
+    // this.hub.port = config.hub.port;
 
     this.host = config.host;
     this.protocol = config.protocol ? config.protocol : 'http';
@@ -80,21 +79,20 @@ var UpsourceClient = module.exports = function (config) {
         return decodeURIComponent(requestUrl);
     };
 
-    this.buildHubURL = function (action) {
-        var apiBasePath = this.hub.path_prefix + 'hub/api/rest/';
-        var requestUrl = url.format({
-            protocol: this.hub.protocol,
-            hostname: this.hub.host,
-            port: this.hub.port,
-            pathname: apiBasePath + action
-        });
-
-        return decodeURIComponent(requestUrl);
-    };
+    // this.buildHubURL = function (action) {
+    //     var apiBasePath = this.hub.path_prefix + 'hub/api/rest/';
+    //     var requestUrl = url.format({
+    //         protocol: this.hub.protocol,
+    //         hostname: this.hub.host,
+    //         port: this.hub.port,
+    //         pathname: apiBasePath + action
+    //     });
+    //
+    //     return decodeURIComponent(requestUrl);
+    // };
 
     this.makeRawRequest = function (options, callback) {
 
-        console.log('aaa', options);
         request(options, function (err, resp) {
 
             return callback(null, resp);
@@ -117,7 +115,6 @@ var UpsourceClient = module.exports = function (config) {
             options.jar = this.cookie_jar;
         }
 
-        console.log(options);
         request(options, function (err, response, body) {
             if (err || response.statusCode.toString()[0] != 2) {
                 return callback(err ? err : body, null, response);
